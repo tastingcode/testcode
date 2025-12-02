@@ -1,5 +1,6 @@
 package com.example.demo.post.service;
 
+import com.example.demo.post.domain.Post;
 import com.example.demo.post.domain.PostCreate;
 import com.example.demo.post.domain.PostUpdate;
 import com.example.demo.post.infrastructure.PostEntity;
@@ -18,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 		@Sql(value = "/sql/post-service-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
 		@Sql(value = "/sql/delete-all-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-public class PostServiceTest {
+public class PostEntityServiceTest {
 	@Autowired
 	private PostService postService;
 
@@ -26,7 +27,7 @@ public class PostServiceTest {
 	void getById는_존재하는_게시물을_내려준다() {
 		// given
 		// when
-		PostEntity result = postService.getById(1);
+		Post result = postService.getById(1);
 
 		// then
 		assertThat(result.getContent()).isEqualTo("helloworld");
@@ -42,7 +43,7 @@ public class PostServiceTest {
 				.build();
 
 		// when
-		PostEntity result = postService.create(postCreate);
+		Post result = postService.create(postCreate);
 
 		// then
 		assertThat(result.getId()).isNotNull();
@@ -61,7 +62,7 @@ public class PostServiceTest {
 		postService.update(1, postUpdate);
 
 		// then
-		PostEntity postEntity= postService.getById(1);
+		Post postEntity = postService.getById(1);
 		assertThat(postEntity.getContent()).isEqualTo("hello world :)");
 		assertThat(postEntity.getModifiedAt()).isGreaterThan(0);
 	}

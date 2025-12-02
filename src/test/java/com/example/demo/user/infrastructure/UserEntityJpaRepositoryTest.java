@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 // @TestPropertySource("classpath:test-application.properties")
 @DataJpaTest(showSql = true)
 @Sql("/sql/user-repository-test-data.sql")
-public class UserJpaRepositoryTest {
+public class UserEntityJpaRepositoryTest {
 
 	@Autowired
 	private UserJpaRepository userJpaRepository;
