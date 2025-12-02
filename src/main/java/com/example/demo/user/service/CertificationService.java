@@ -2,12 +2,11 @@ package com.example.demo.user.service;
 
 import com.example.demo.user.service.port.MailSender;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CertificationService {
+public class CertificationService implements com.example.demo.user.controller.port.CertificationService {
 
     private final MailSender mailSender;
 
