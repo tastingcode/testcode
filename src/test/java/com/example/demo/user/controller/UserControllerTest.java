@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 
 public class UserControllerTest {
@@ -36,7 +34,7 @@ public class UserControllerTest {
 
 
         // when
-        ResponseEntity<UserResponse> result = testContainer.userController.getUserById(1);
+        ResponseEntity<UserResponse> result = testContainer.userController.getUById(1);
 
         // then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
@@ -56,7 +54,7 @@ public class UserControllerTest {
         // when
         // then
         assertThatThrownBy(() -> {
-            testContainer.userController.getUserById(1L);
+            testContainer.userController.getUById(1L);
         }).isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -83,7 +81,6 @@ public class UserControllerTest {
         assertThat(testContainer.userRepository.getById(1).getStatus()).isEqualTo(UserStatus.ACTIVE);
     }
 
-
     @Test
     void 사용자는_인증_코드가_일치하지_않을_경우_권한_없음_에러를_내려준다(){
         // given
@@ -104,57 +101,5 @@ public class UserControllerTest {
             testContainer.userController.verifyEmail(1, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac");
         }).isInstanceOf(CertificationCodeNotMatchedException.class);
     }
-
-   /* @Test
-    void 사용자는_내_정보를_불러올_때_개인정보인_주소도_갖고_올_수_있다() throws Exception {
-        // given
-        TestContainer testContainer = TestContainer.builder()
-                .clockHolder(() -> 1678530673958L)
-                .build();
-        testContainer.userRepository.save(User.builder()
-                .id(1L)
-                .email("kok202@naver.com")
-                .nickname("kok202")
-                .address("Seoul")
-                .status(UserStatus.ACTIVE)
-                .certificationCode("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab")
-                .lastLoginAt(100L)
-                .build());
-
-        // when
-        ResponseEntity<MyProfileResponse> result = testContainer.myInfoController.get("kok202@naver.com");
-
-        // then
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        assertThat(result.getBody()).isNotNull();
-        assertThat(result.getBody().getEmail()).isEqualTo("kok202@naver.com");
-        assertThat(result.getBody().getNickname()).isEqualTo("kok202");
-        assertThat(result.getBody().getLastLoginAt()).isEqualTo(1678530673958L);
-        assertThat(result.getBody().getAddress()).isEqualTo("Seoul");
-        assertThat(result.getBody().getStatus()).isEqualTo(UserStatus.ACTIVE);
-    }
-
-    @Test
-    void 사용자는_내_정보를_수정할_수_있다(){
-        // given
-        UserUpdate userUpdate = UserUpdate.builder()
-                .nickname("kok202-n")
-                .address("Pangyo")
-                .build();
-
-        // when
-        // then
-        mockMvc.perform(
-                        put("/api/users/me")
-                                .header("EMAIL", "kok202@naver.com")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(userUpdate)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.email").value("kok202@naver.com"))
-                .andExpect(jsonPath("$.nickname").value("kok202-n"))
-                .andExpect(jsonPath("$.address").value("Pangyo"))
-                .andExpect(jsonPath("$.status").value("ACTIVE"));
-    }*/
 
 }

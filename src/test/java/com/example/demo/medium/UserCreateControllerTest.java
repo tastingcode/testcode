@@ -37,8 +37,8 @@ public class UserCreateControllerTest {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
-	public void 사용자는_회원_가입을_할_수있고_회원가입된_사용자는_PENDING_상태이다() throws Exception {
-	    //given
+	void 사용자는_회원_가입을_할_수있고_회원가입된_사용자는_PENDING_상태이다() throws Exception {
+		// given
 		UserCreate userCreate = UserCreate.builder()
 				.email("kok202@kakao.com")
 				.nickname("kok202")
@@ -46,8 +46,6 @@ public class UserCreateControllerTest {
 				.build();
 		BDDMockito.doNothing().when(mailSender).send(any(SimpleMailMessage.class));
 
-		//when
-	    //then
 		// when
 		// then
 		mockMvc.perform(
